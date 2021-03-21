@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios from 'axios';
 
 export const fetchRepoData = async (repoUrl: string) => {
   return axios.get(repoUrl);

@@ -1,18 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.scss';
 import { Route, Switch } from 'react-router';
-import IntroPage from './pages/intro/intro.page';
 import ViewerPage from './pages/viewer/viewer.page';
 import Header from './components/header/header.component';
 
 function App() {
+  const [validRepoAPIUrl, setValidRepoAPIUrl] = useState<string>('');
+
   return (
     <div className='application-container'>
-      <Header />
+      <Header setValidRepoAPIUrl={setValidRepoAPIUrl} />
       <div className='content'>
         <Switch>
-          <Route exact path='/' component={IntroPage} />
-          <Route exact path='/viewer' component={ViewerPage} />
+          {/* <Route exact path='/' component={IntroPage} /> */}
+          <Route exact path='/' render={
+            () => (
+              <ViewerPage validRepoAPIUrl={validRepoAPIUrl}/>
+            )
+          } />
         </Switch>
       </div>
     </div>

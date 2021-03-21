@@ -1,6 +1,7 @@
 {
   "name": "github-repo-explorer",
   "version": "0.1.0",
+  "homepage": "https://indrajitbnikam.github.io/github-repo-explorer/",
   "private": true,
   "dependencies": {
     "@itassistors/langline": "^1.0.3",
@@ -12,10 +13,10 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/react-router-dom": "^5.1.7",
-    "@types/react-split-pane": "^0.1.67",
     "@types/react-syntax-highlighter": "^13.5.0",
     "antd": "^4.14.0",
     "axios": "^0.21.1",
+    "gh-pages": "^3.1.0",
     "node-sass": "^5.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -30,7 +31,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "react-scripts build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [

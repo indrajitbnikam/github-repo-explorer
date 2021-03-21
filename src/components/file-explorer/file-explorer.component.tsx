@@ -13,12 +13,16 @@ const FileExplorer = (
 
   useEffect(() => {
     const fetchInitialData = async () => {
-      const { data } = await fetchRepoData(`${repoUrl}/contents`);
-      const initialFileTree = sortFileDirectory(createFileTree(data));
-      setFileTree(initialFileTree);
+      try {
+        const { data } = await fetchRepoData(repoUrl);
+        const initialFileTree = sortFileDirectory(createFileTree(data));
+        setFileTree(initialFileTree);
+      } catch (error) {
+        console.error(error);
+      }
     }
     fetchInitialData()
-  }, [])
+  }, [repoUrl])
 
   const onExpandAsync = async (treeNode: EventDataNode) => {
     try {
