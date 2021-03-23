@@ -5,5 +5,5 @@ export const fetchRepoData = async (repoUrl: string) => {
 };
 
 export const fetchFileContent = async (fileUrl: string): Promise<string> => {
-  return axios.get(fileUrl).then(({ data }) => window.atob(data.content));
+  return axios.get(fileUrl).then(({ data }) => data ? window.atob(data.content) : '');
 }
