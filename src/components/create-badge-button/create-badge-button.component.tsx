@@ -1,11 +1,18 @@
 import { Button, Input, Modal } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './create-badge-button.scss'
 import Paragraph from 'antd/lib/typography/Paragraph';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { selectRepoUrl } from '../../store/explorer/explorer.selectors';
 
-const CreateBadgeButton = () => {
+const CreateBadgeButton = ({ repoUrl }: any) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [pastedUrl, setPastedUrl] = useState('');
+  const [pastedUrl, setPastedUrl] = useState<string>('');
+
+  useEffect(() => {
+    setPastedUrl(repoUrl);
+  }, [repoUrl, modalVisible])
 
   const handleCancel = () => {
     setModalVisible(false);
@@ -57,4 +64,8 @@ const CreateBadgeButton = () => {
   )
 }
 
-export default CreateBadgeButton
+const mapStateToProps = createStructuredSelector<any, any>({
+  repoUrl: selectRepoUrl
+})
+
+export default connect(mapStateToProps)(CreateBadgeButton)

@@ -1,7 +1,7 @@
 import { ExplorerAction, ExplorerState, ExplorerActionTypes, SelectedFileType } from './explorer.types';
 
 const INITIAL_STATE: ExplorerState = {
-  repoUrl: '',
+  repoUrl: 'https://github.com/indrajitbnikam/github-repo-explorer',
   repoApiUrl: '',
   selectedFile: {
     name: '',
