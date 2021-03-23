@@ -1,4 +1,14 @@
 .header {
   width: 100%;
   padding: 20px;
+  display: flex;
+  justify-content: space-between;
+
+  .search-bar {
+    width: 60%;
+  }
+
+  .temp {
+    width: auto;
+  }
 }

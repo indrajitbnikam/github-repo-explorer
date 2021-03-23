@@ -1,42 +1,34 @@
-import { Input } from 'antd';
-import React, { useEffect, useState } from 'react'
-import { fetchRepoData } from '../../services/github-api.service';
+import React, { FC } from 'react'
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { setRepoApiUrl, setRepoUrl } from '../../store/explorer/explorer.actions';
+import { selectRepoUrl } from '../../store/explorer/explorer.selectors';
+import { AllActionTypes } from '../../store/store.types';
+import CreateBadgeButton from '../create-badge-button/create-badge-button.component';
+import SearchBar from '../search-bar/search-bar.component';
 import './header.scss';
 
-const Header = ({ setValidRepoAPIUrl }: { setValidRepoAPIUrl: (url: string) => void }) => {
-  const [repoUrl, setRepoUrl] = useState<string>('https://github.com/indrajitbnikam/github-repo-explorer');
-
-  const converRepoUrlToAPIUrl = (repoUrl: string): string => {
-    const userAndRepo = repoUrl.replace('https://github.com/', '');
-    const [user, repo ] = userAndRepo.split('/');
-    return `https://api.github.com/repos/${user}/${repo}/contents`;
-  }
-
-  useEffect(() => {
-    const tryToSetValidUrl = async () => {
-      try {
-        if (repoUrl) {
-          const apiUrl = converRepoUrlToAPIUrl(repoUrl);
-          const result = await fetchRepoData(apiUrl);
-          if (result.status === 200) {
-            setValidRepoAPIUrl(apiUrl);
-          }
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    tryToSetValidUrl();
-  }, [repoUrl, setValidRepoAPIUrl])
+const Header: FC = () => {
 
   return (
     <div className='header'>
-      <Input
-        placeholder='Paste your github repo url'
-        value={repoUrl}
-        onChange={(e) => setRepoUrl(e.target.value)}></Input>
+      <div className='search-bar'>
+        <SearchBar />
+      </div>
+      <div className='create-badge'>
+        <CreateBadgeButton />
+      </div>
     </div>
   )
 }
 
-export default Header;
+const mapStateToProps = createStructuredSelector<any, any>({
+  repoUrl: selectRepoUrl
+});
+
+const mapDispatchToProps = (dispatch: (action: AllActionTypes) => void) => ({
+  setRepoUrl: (url: string) => dispatch(setRepoUrl(url)),
+  setRepoApiUrl: (url: string) => dispatch(setRepoApiUrl(url))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
