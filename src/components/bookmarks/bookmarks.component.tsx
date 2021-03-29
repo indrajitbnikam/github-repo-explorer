@@ -1,6 +1,6 @@
 import React from 'react';
-import { StarTwoTone } from '@ant-design/icons';
-import { Button, Dropdown, Menu, notification, Tooltip } from 'antd';
+import { InfoCircleTwoTone, PushpinTwoTone } from '@ant-design/icons';
+import { Button, Dropdown, Menu, notification, Popover, Tooltip } from 'antd';
 import { Bookmark } from '../../store/bookmarks/bookmarks.types';
 import './bookmarks.scss';
 import { selectBookmarks, selectIsItBookmarked } from '../../store/bookmarks/bookmarks.selectors';
@@ -26,15 +26,17 @@ const Bookmarks = ({ repoName, repoUrl, bookmarks, isItBookmarked, saveBookmark,
     if (alreadyBookmarked) {
       deleteBookmark(bookmark.url);
       notification.info({
-        message: 'Info',
-        description: 'Added to bookmark - ' + bookmark.name,
+        message: 'Unpinned repository',
+        description: bookmark.name,
+        icon: <PushpinTwoTone twoToneColor='#bebebe' />,
         placement: 'bottomRight'
       });
     } else {
       saveBookmark(bookmark);
       notification.info({
-        message: 'Info',
-        description: 'Removed from bookmark - ' + bookmark.name,
+        message: 'Pinned repository',
+        description: bookmark.name,
+        icon: <PushpinTwoTone />,
         placement: 'bottomRight'
       });
     }
@@ -56,20 +58,31 @@ const Bookmarks = ({ repoName, repoUrl, bookmarks, isItBookmarked, saveBookmark,
     )
   }
 
+  const pinnedRepoExtraInfo = (
+    <div>
+      <p>Pinned repos can be accessed through this dropdown.</p>
+      <p>You can unpin these anytime.</p>
+      <p>Pinned repos will be saved locally in localstorage.</p>
+    </div>
+  )
+
   return (
     <div className='bookmarks-container'>
       <div className="bookmark-dropdown">
-        <Dropdown overlay={getMenu(bookmarks)} disabled={!bookmarks.length}>
+        <Dropdown overlay={getMenu(bookmarks)} disabled={!bookmarks.length} trigger={['click']}>
           <Button>
-            Bookmarks
+            <PushpinTwoTone /> Pinned repos
           </Button>
         </Dropdown>
+        <Popover content={pinnedRepoExtraInfo} title='What are pinned repos?' trigger='hover'>
+          <InfoCircleTwoTone twoToneColor='#bebebe' style={{marginLeft: '10px'}}/>
+        </Popover>
       </div>
       <div className="bookmark-toggle">
-        <Tooltip title={isItBookmarked ? 'Remove from bookmarks' : 'Add to bookmarks'}>
-          <StarTwoTone
+        <Tooltip title={isItBookmarked ? 'Unpin this repo' : 'Pin this repo'}>
+          <PushpinTwoTone
             style={{fontSize: '20px', cursor: 'pointer'}}
-            twoToneColor={isItBookmarked ? '#2d9aff' : '#bebebe'}
+            twoToneColor={isItBookmarked ? undefined : '#bebebe'}
             onClick={() => handleToggleBookmarkState({name: repoName, url: repoUrl} as Bookmark, isItBookmarked)}
             />
         </Tooltip>
