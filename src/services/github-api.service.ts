@@ -15,9 +15,13 @@ export const fetchRepoInfo = async (repoUrl: string, requestConfig?: AxiosReques
 }
 
 export const fetchRepoContent = async (repoUrl: string, requestConfig?: AxiosRequestConfig) => {
-  return axios.get(`${repoUrl}/contents`, requestConfig);
+  return axios.get(`${repoUrl}`, requestConfig);
 }
 
 export const fetchFileContent = async (fileUrl: string): Promise<string> => {
   return axios.get(fileUrl).then(({ data }) => data ? window.atob(data.content) : '');
+}
+
+export const fetchRepoBranches = async (repoApiUrl: string) => {
+  return axios.get(`${repoApiUrl}/branches`);
 }

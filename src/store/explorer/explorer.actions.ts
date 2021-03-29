@@ -14,3 +14,8 @@ export const setRepoInfo = (repoInfo: RepoInfo): ExplorerAction => ({
   type: ExplorerActionTypes.SetRepoInfo,
   payload: repoInfo
 });
+
+export const setRepoBranch = (branchName: string): ExplorerAction => ({
+  type: ExplorerActionTypes.SetRepoBranch,
+  payload: branchName
+});

@@ -1,7 +1,8 @@
 export enum ExplorerActionTypes {
   SetSelectedFile = '[Explorer] Select File',
   SetRepoUrl = '[Explorer] Set Repository URL',
-  SetRepoInfo = '[Explorer] Set Repository Info'
+  SetRepoInfo = '[Explorer] Set Repository Info',
+  SetRepoBranch = '[Explorer] Set Repository Branch'
 };
 
 export type SelectedFileType = {
@@ -22,5 +23,6 @@ export interface ExplorerAction {
 export interface ExplorerState {
   repoUrl: string;
   repoInfo: RepoInfo,
+  repoBranch?: string;
   selectedFile: SelectedFileType;
 }

@@ -7,10 +7,10 @@ import { ErrorObject } from '@itassistors/langline/dist/lib/interface/ErrorInter
 import { tomorrow as style } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { selectSelectedFile } from '../../store/explorer/explorer.selectors';
+import { selectRepoApiUrl, selectRepoBranch, selectSelectedFile } from '../../store/explorer/explorer.selectors';
 import { SelectedFileType } from '../../store/explorer/explorer.types';
 
-const FileViewer: FC = ({ selectedFile }: any) => {
+const FileViewer: FC = ({ selectedFile, repoApiUrl, repoBranch }: any) => {
 
   const { name, url } = selectedFile as SelectedFileType;
 
@@ -29,6 +29,11 @@ const FileViewer: FC = ({ selectedFile }: any) => {
     }
     fetchFileData()
   }, [url])
+
+  useEffect(() => {
+    setFileContent('');
+    setFileLanguage('text');
+  }, [repoApiUrl, repoBranch])
 
   useEffect(() => {
     const language: LangData | ErrorObject = new LangLine().withFileName(name);
@@ -57,7 +62,9 @@ const FileViewer: FC = ({ selectedFile }: any) => {
 }
 
 const mapStateToProps = createStructuredSelector<any, any>({
-  selectedFile: selectSelectedFile
+  selectedFile: selectSelectedFile,
+  repoApiUrl: selectRepoApiUrl,
+  repoBranch: selectRepoBranch
 })
 
 export default connect(mapStateToProps)(FileViewer);
