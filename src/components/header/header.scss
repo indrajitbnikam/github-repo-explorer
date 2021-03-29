@@ -4,11 +4,23 @@
   display: flex;
   justify-content: space-between;
 
-  .search-bar {
-    width: 60%;
+  .left-section {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    .branch-selector {
+      margin-right: 5px;
+    }
+
+    .search-bar {
+      min-width: 500px;
+    }
   }
 
-  .temp {
-    width: auto;
+  .right-section {
+    .create-badge {
+      width: auto;
+    }
   }
 }

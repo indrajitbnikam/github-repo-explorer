@@ -28,3 +28,8 @@ export const selectSelectedFile = createSelector(
   [selectExplorerState],
   (state: ExplorerState) => state.selectedFile
 );
+
+export const selectRepoBranch = createSelector(
+  [selectExplorerState],
+  (state: ExplorerState) => state.repoBranch
+);

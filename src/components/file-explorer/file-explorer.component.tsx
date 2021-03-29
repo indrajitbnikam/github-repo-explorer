@@ -4,21 +4,21 @@ import { DataNode, EventDataNode } from 'rc-tree/lib/interface';
 import { fetchRepoContent } from '../../services/github-api.service';
 import { createFileTree, sortFileDirectory, updateTreeData } from './file-explorer.service';
 import { createStructuredSelector } from 'reselect';
-import { selectRepoApiUrl } from '../../store/explorer/explorer.selectors';
+import { selectRepoApiUrl, selectRepoBranch } from '../../store/explorer/explorer.selectors';
 import { SelectedFileType } from '../../store/explorer/explorer.types';
 import { setSelectedFile } from '../../store/explorer/explorer.actions';
 import { AllActionTypes } from '../../store/store.types';
 import { connect } from 'react-redux';
 const { DirectoryTree } = Tree;
 
-const FileExplorer: FC = ({ repoApiUrl, setSelectFile }: any) => {
+const FileExplorer: FC = ({ repoApiUrl, repoBranch, setSelectFile }: any) => {
   const [fileTree, setFileTree] = useState<DataNode[]>([])
 
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
         if (!repoApiUrl) return;
-        const response = await fetchRepoContent(repoApiUrl);
+        const response = await fetchRepoContent(`${repoApiUrl}/contents${repoBranch ? '?ref='+repoBranch : ''}`);
         if (response.status !== 200) return;
 
         const initialFileTree = sortFileDirectory(createFileTree(response.data));
@@ -28,7 +28,7 @@ const FileExplorer: FC = ({ repoApiUrl, setSelectFile }: any) => {
       }
     }
     fetchInitialData()
-  }, [repoApiUrl])
+  }, [repoApiUrl, repoBranch])
 
   const onExpandAsync = async (treeNode: EventDataNode) => {
     try {
@@ -66,7 +66,8 @@ const FileExplorer: FC = ({ repoApiUrl, setSelectFile }: any) => {
 }
 
 const mapStateToProps = createStructuredSelector<any, any>({
-  repoApiUrl: selectRepoApiUrl
+  repoApiUrl: selectRepoApiUrl,
+  repoBranch: selectRepoBranch
 })
 
 const mapDispatchToProps = (dispatch: (action: AllActionTypes) => void) => ({

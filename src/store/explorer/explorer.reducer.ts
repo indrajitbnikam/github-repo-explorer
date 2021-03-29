@@ -6,6 +6,7 @@ const INITIAL_STATE: ExplorerState = {
     apiUrl: '',
     name: ''
   },
+  repoBranch: undefined,
   selectedFile: {
     name: '',
     url: ''
@@ -30,6 +31,12 @@ const explorerReducer = (state: ExplorerState = INITIAL_STATE, action: ExplorerA
       return {
         ...state,
         selectedFile: action.payload as SelectedFileType
+      };
+
+    case ExplorerActionTypes.SetRepoBranch:
+      return {
+        ...state,
+        repoBranch: action.payload as string
       };
 
     default: return state;
