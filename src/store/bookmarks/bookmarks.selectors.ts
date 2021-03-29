@@ -1,7 +1,6 @@
 import { createSelector } from 'reselect';
 import { GlobalReduxState } from '../store.types';
 import { BookmarksState } from './bookmarks.types';
-import { memoize } from 'lodash';
 
 const selectBookmarksState = (state: GlobalReduxState) => state.bookmarks;
 
