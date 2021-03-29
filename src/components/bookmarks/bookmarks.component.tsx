@@ -1,6 +1,6 @@
 import React from 'react';
 import { StarTwoTone } from '@ant-design/icons';
-import { Button, Dropdown, Menu, Tooltip } from 'antd';
+import { Button, Dropdown, Menu, notification, Tooltip } from 'antd';
 import { Bookmark } from '../../store/bookmarks/bookmarks.types';
 import './bookmarks.scss';
 import { selectBookmarks, selectIsItBookmarked } from '../../store/bookmarks/bookmarks.selectors';
@@ -15,13 +15,28 @@ const Bookmarks = ({ repoName, repoUrl, bookmarks, isItBookmarked, saveBookmark,
 
   const handleSelectNewBookmark = (event: any) => {
     setRepoUrl(event.key);
+    notification.info({
+      message: 'Info',
+      description: 'Switched repository!',
+      placement: 'bottomRight'
+    });
   }
 
   const handleToggleBookmarkState = (bookmark: Bookmark, alreadyBookmarked: boolean) => {
     if (alreadyBookmarked) {
       deleteBookmark(bookmark.url);
+      notification.info({
+        message: 'Info',
+        description: 'Added to bookmark - ' + bookmark.name,
+        placement: 'bottomRight'
+      });
     } else {
-      saveBookmark(bookmark)
+      saveBookmark(bookmark);
+      notification.info({
+        message: 'Info',
+        description: 'Removed from bookmark - ' + bookmark.name,
+        placement: 'bottomRight'
+      });
     }
   }
 
@@ -44,7 +59,7 @@ const Bookmarks = ({ repoName, repoUrl, bookmarks, isItBookmarked, saveBookmark,
   return (
     <div className='bookmarks-container'>
       <div className="bookmark-dropdown">
-        <Dropdown overlay={getMenu(bookmarks)}>
+        <Dropdown overlay={getMenu(bookmarks)} disabled={!bookmarks.length}>
           <Button>
             Bookmarks
           </Button>

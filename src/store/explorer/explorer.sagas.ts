@@ -3,6 +3,7 @@ import { fetchRepoInfo } from '../../services/github-api.service';
 import { converRepoUrlToAPIUrl } from '../../shared/utils';
 import { setRepoBranch, setRepoInfo } from './explorer.actions';
 import { ExplorerAction, ExplorerActionTypes, RepoInfo } from './explorer.types';
+import { notification } from 'antd';
 
 export function* onSetRepoUrl() {
   yield* takeLatest(ExplorerActionTypes.SetRepoUrl, fetchAndSaveRepoInfo);
@@ -18,6 +19,11 @@ function* fetchAndSaveRepoInfo(action: ExplorerAction): Generator {
     yield* put(setRepoBranch(branchName));
   } catch (error) {
     console.warn(error);
+    notification.error({
+      message: 'Oops',
+      description: 'Invalid repository URL!',
+      placement: 'bottomRight'
+    });
   }
 }
 

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { Select } from 'antd';
+import { notification, Select } from 'antd';
 import { fetchRepoBranches } from '../../services/github-api.service';
 import { createStructuredSelector } from 'reselect';
-import { selectDefaultRepoBranch, selectRepoApiUrl, selectRepoBranch } from '../../store/explorer/explorer.selectors';
+import { selectRepoApiUrl, selectRepoBranch } from '../../store/explorer/explorer.selectors';
 import { connect } from 'react-redux';
 import { ExplorerAction } from '../../store/explorer/explorer.types';
 import { setRepoBranch } from '../../store/explorer/explorer.actions';
@@ -27,6 +27,11 @@ const BranchSelector = ({ repoApiUrl, branchName, setNewRepoBranch }: any) => {
 
   const handleSelectBranch = (branchName: string) => {
     setNewRepoBranch(branchName);
+    notification.info({
+      message: 'Info',
+      description: 'Switched the branch - ' + branchName,
+      placement: 'bottomRight'
+    });
   }
 
   return (
@@ -56,8 +61,7 @@ const BranchSelector = ({ repoApiUrl, branchName, setNewRepoBranch }: any) => {
 
 const mapStateToProps = createStructuredSelector<any, any>({
   repoApiUrl: selectRepoApiUrl,
-  branchName: selectRepoBranch,
-  defaultBranchName: selectDefaultRepoBranch
+  branchName: selectRepoBranch
 });
 
 const mapDispatchToProps = (dispatch: (action: ExplorerAction) => void) => ({
