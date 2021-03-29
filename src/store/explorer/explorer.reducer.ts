@@ -4,7 +4,8 @@ const INITIAL_STATE: ExplorerState = {
   repoUrl: '',
   repoInfo: {
     apiUrl: '',
-    name: ''
+    name: '',
+    defaultBranch: ''
   },
   repoBranch: undefined,
   selectedFile: {

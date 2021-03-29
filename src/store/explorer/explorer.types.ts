@@ -13,6 +13,7 @@ export type SelectedFileType = {
 export type RepoInfo = {
   apiUrl: string;
   name: string;
+  defaultBranch: string;
 }
 
 export interface ExplorerAction {

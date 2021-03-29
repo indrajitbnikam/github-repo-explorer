@@ -24,6 +24,11 @@ export const selectRepoName = createSelector(
   (state: RepoInfo) => state.name
 );
 
+export const selectDefaultRepoBranch = createSelector(
+  [selectRepoInfo],
+  (state: RepoInfo) => state.defaultBranch
+);
+
 export const selectSelectedFile = createSelector(
   [selectExplorerState],
   (state: ExplorerState) => state.selectedFile

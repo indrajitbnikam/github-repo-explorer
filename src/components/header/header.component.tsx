@@ -1,16 +1,16 @@
 import React, { FC } from 'react';
 import CreateBadgeButton from '../create-badge-button/create-badge-button.component';
 import SearchBar from '../search-bar/search-bar.component';
-import BranchSelector from '../branch-selector/branch-selector.component';
 import './header.scss';
+import Bookmarks from '../bookmarks/bookmarks.component';
 
 const Header: FC = () => {
 
   return (
     <div className='header'>
       <div className='left-section'>
-        <div className='branch-selector'>
-          <BranchSelector />
+        <div className='bookmarks'>
+          <Bookmarks />
         </div>
         <div className='search-bar'>
           <SearchBar />

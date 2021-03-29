@@ -5,9 +5,13 @@ export enum BookmarksActionTypes {
 
 export interface BookmarksAction {
   type: BookmarksActionTypes,
-  payload?: string
+  payload?: string | Bookmark
 }
 
+export interface Bookmark {
+  name: string;
+  url: string;
+}
 export interface BookmarksState {
-  bookmarks: string[]
+  bookmarks: Bookmark[]
 }

@@ -1,10 +1,11 @@
-import { BookmarksActionTypes } from './bookmarks.types';
+import { Bookmark, BookmarksActionTypes } from './bookmarks.types';
 
-export const saveBookmark = (url: string) => ({
+export const saveBookmark = (bookmark: Bookmark) => ({
   type: BookmarksActionTypes.SaveBookmark,
-  payload: url
+  payload: bookmark
 });
 
 export const deleteBookmark = (url: string) => ({
-  type: BookmarksActionTypes.DeleteBookmark
+  type: BookmarksActionTypes.DeleteBookmark,
+  payload: url
 });

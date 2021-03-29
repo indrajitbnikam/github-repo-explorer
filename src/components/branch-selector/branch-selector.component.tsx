@@ -2,16 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { Select } from 'antd';
 import { fetchRepoBranches } from '../../services/github-api.service';
 import { createStructuredSelector } from 'reselect';
-import { selectRepoApiUrl } from '../../store/explorer/explorer.selectors';
+import { selectDefaultRepoBranch, selectRepoApiUrl, selectRepoBranch } from '../../store/explorer/explorer.selectors';
 import { connect } from 'react-redux';
 import { ExplorerAction } from '../../store/explorer/explorer.types';
 import { setRepoBranch } from '../../store/explorer/explorer.actions';
 const { Option } = Select;
 
-const BranchSelector = ({ repoApiUrl, setNewRepoBranch }: any) => {
+const BranchSelector = ({ repoApiUrl, branchName, setNewRepoBranch }: any) => {
   const [isLoading, setIsLoading] = useState(false);
   const [branches, setBranches] = useState([]);
-  const [selectedBranch, setSelectedBranch] = useState<string>('');
 
   useEffect(() => {
     const fetchAndSetBranches = async (repoApiUrl: string) => {
@@ -19,7 +18,6 @@ const BranchSelector = ({ repoApiUrl, setNewRepoBranch }: any) => {
       const result = await fetchRepoBranches(repoApiUrl);
       if (result.status === 200) {
         setBranches(result.data);
-        setSelectedBranch('');
       }
       setIsLoading(false);
     }
@@ -28,7 +26,6 @@ const BranchSelector = ({ repoApiUrl, setNewRepoBranch }: any) => {
   }, [repoApiUrl])
 
   const handleSelectBranch = (branchName: string) => {
-    setSelectedBranch(branchName);
     setNewRepoBranch(branchName);
   }
 
@@ -45,7 +42,7 @@ const BranchSelector = ({ repoApiUrl, setNewRepoBranch }: any) => {
         optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
       }
       loading={isLoading}
-      value={selectedBranch}
+      value={branchName}
       onSelect={(branchName: string) => handleSelectBranch(branchName)}
     >
       {
@@ -58,7 +55,9 @@ const BranchSelector = ({ repoApiUrl, setNewRepoBranch }: any) => {
 }
 
 const mapStateToProps = createStructuredSelector<any, any>({
-  repoApiUrl: selectRepoApiUrl
+  repoApiUrl: selectRepoApiUrl,
+  branchName: selectRepoBranch,
+  defaultBranchName: selectDefaultRepoBranch
 });
 
 const mapDispatchToProps = (dispatch: (action: ExplorerAction) => void) => ({
