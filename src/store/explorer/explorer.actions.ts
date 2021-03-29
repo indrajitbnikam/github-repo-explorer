@@ -1,4 +1,4 @@
-import { ExplorerActionTypes, ExplorerAction, SelectedFileType } from './explorer.types';
+import { ExplorerActionTypes, ExplorerAction, SelectedFileType, RepoInfo } from './explorer.types';
 
 export const setSelectedFile = (url: SelectedFileType): ExplorerAction => ({
   type: ExplorerActionTypes.SetSelectedFile,
@@ -10,7 +10,7 @@ export const setRepoUrl = (url: string): ExplorerAction => ({
   payload: url
 });
 
-export const setRepoApiUrl = (url: string): ExplorerAction => ({
-  type: ExplorerActionTypes.SetRepoApiUrl,
-  payload: url
+export const setRepoInfo = (repoInfo: RepoInfo): ExplorerAction => ({
+  type: ExplorerActionTypes.SetRepoInfo,
+  payload: repoInfo
 });

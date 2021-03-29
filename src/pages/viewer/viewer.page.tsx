@@ -16,8 +16,9 @@ const ViewerPage: FC = ({ setRepoUrl }: any) => {
     let url = decodeURIComponent(params?.repositoryUrl || '');
     if (url) {
       setRepoUrl(url);
+    } else {
+      setRepoUrl('https://github.com/indrajitbnikam/github-repo-explorer');
     }
-    console.log(window.location);
   }, [params, setRepoUrl]);
 
   const getDefaultSize = (): number => {
