@@ -1,0 +1,13 @@
+.bookmarks-container {
+  display: flex;
+  flex-direction: row;
+
+  .bookmark-dropdown {
+    margin-right: 5px;
+  }
+
+  .bookmark-toggle {
+    display: grid;
+    place-items: center;
+  }
+}

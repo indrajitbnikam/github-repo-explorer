@@ -4,6 +4,7 @@ import { useParams } from 'react-router';
 import SplitPane from 'react-split-pane';
 import FileExplorer from '../../components/file-explorer/file-explorer.component';
 import FileViewer from '../../components/file-viewer/file-viewer.component';
+import BranchSelector from '../../components/branch-selector/branch-selector.component';
 import { setRepoUrl } from '../../store/explorer/explorer.actions';
 import { AllActionTypes } from '../../store/store.types';
 import './viewer.scss';
@@ -36,7 +37,12 @@ const ViewerPage: FC = ({ setRepoUrl }: any) => {
         defaultSize={getDefaultSize()}
         onChange={(size) => localStorage.setItem('splitPos', `${size}`)} >
           <div className='file-explorer-container'>
-            <FileExplorer />
+            <div className='branch-selector-container'>
+              <BranchSelector />
+            </div>
+            <div className='explorer'>
+              <FileExplorer />
+            </div>
           </div>
           <div className='file-viewer-container'>
             <FileViewer />
