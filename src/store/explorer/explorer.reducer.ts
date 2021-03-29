@@ -1,8 +1,11 @@
-import { ExplorerAction, ExplorerState, ExplorerActionTypes, SelectedFileType } from './explorer.types';
+import { ExplorerAction, ExplorerState, ExplorerActionTypes, SelectedFileType, RepoInfo } from './explorer.types';
 
 const INITIAL_STATE: ExplorerState = {
-  repoUrl: 'https://github.com/indrajitbnikam/github-repo-explorer',
-  repoApiUrl: '',
+  repoUrl: '',
+  repoInfo: {
+    apiUrl: '',
+    name: ''
+  },
   selectedFile: {
     name: '',
     url: ''
@@ -17,10 +20,10 @@ const explorerReducer = (state: ExplorerState = INITIAL_STATE, action: ExplorerA
         repoUrl: action.payload as string
       };
 
-    case ExplorerActionTypes.SetRepoApiUrl:
+    case ExplorerActionTypes.SetRepoInfo:
       return {
         ...state,
-        repoApiUrl: action.payload as string
+        repoInfo: action.payload as RepoInfo
       };
 
     case ExplorerActionTypes.SetSelectedFile:

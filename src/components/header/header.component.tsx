@@ -1,9 +1,4 @@
-import React, { FC } from 'react'
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-import { setRepoApiUrl, setRepoUrl } from '../../store/explorer/explorer.actions';
-import { selectRepoUrl } from '../../store/explorer/explorer.selectors';
-import { AllActionTypes } from '../../store/store.types';
+import React, { FC } from 'react';
 import CreateBadgeButton from '../create-badge-button/create-badge-button.component';
 import SearchBar from '../search-bar/search-bar.component';
 import './header.scss';
@@ -22,13 +17,4 @@ const Header: FC = () => {
   )
 }
 
-const mapStateToProps = createStructuredSelector<any, any>({
-  repoUrl: selectRepoUrl
-});
-
-const mapDispatchToProps = (dispatch: (action: AllActionTypes) => void) => ({
-  setRepoUrl: (url: string) => dispatch(setRepoUrl(url)),
-  setRepoApiUrl: (url: string) => dispatch(setRepoApiUrl(url))
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default Header;

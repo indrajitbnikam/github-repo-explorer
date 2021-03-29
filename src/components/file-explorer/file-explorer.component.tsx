@@ -1,7 +1,7 @@
 import React, { FC, Key, useEffect, useState } from 'react'
 import { Tree } from 'antd';
 import { DataNode, EventDataNode } from 'rc-tree/lib/interface';
-import { fetchRepoData } from '../../services/github-api.service';
+import { fetchRepoContent } from '../../services/github-api.service';
 import { createFileTree, sortFileDirectory, updateTreeData } from './file-explorer.service';
 import { createStructuredSelector } from 'reselect';
 import { selectRepoApiUrl } from '../../store/explorer/explorer.selectors';
@@ -18,8 +18,10 @@ const FileExplorer: FC = ({ repoApiUrl, setSelectFile }: any) => {
     const fetchInitialData = async () => {
       try {
         if (!repoApiUrl) return;
-        const { data } = await fetchRepoData(repoApiUrl);
-        const initialFileTree = sortFileDirectory(createFileTree(data));
+        const response = await fetchRepoContent(repoApiUrl);
+        if (response.status !== 200) return;
+
+        const initialFileTree = sortFileDirectory(createFileTree(response.data));
         setFileTree(initialFileTree);
       } catch (error) {
         console.error(error);
@@ -30,8 +32,10 @@ const FileExplorer: FC = ({ repoApiUrl, setSelectFile }: any) => {
 
   const onExpandAsync = async (treeNode: EventDataNode) => {
     try {
-      const { data } = await fetchRepoData(treeNode.key as string);
-      const updatedFileTree = updateTreeData(fileTree, treeNode.key as string, sortFileDirectory(createFileTree(data)));
+      const childrenData = await fetchRepoContent(treeNode.key as string);
+      if (childrenData.status !== 200) return;
+
+      const updatedFileTree = updateTreeData(fileTree, treeNode.key as string, sortFileDirectory(createFileTree(childrenData.data)));
       setFileTree(updatedFileTree);
     } catch (error) {
       console.error(error);
