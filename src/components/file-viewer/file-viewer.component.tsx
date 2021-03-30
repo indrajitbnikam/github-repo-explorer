@@ -1,14 +1,15 @@
 import React, { FC, useEffect, useState } from 'react'
-import SyntaxHighlighter from 'react-syntax-highlighter';
 import { fetchFileContent } from '../../services/github-api.service'
 import { LangLine } from '@itassistors/langline';
 import { LangData } from '@itassistors/langline/dist/lib/interface/LangDataInterface';
 import { ErrorObject } from '@itassistors/langline/dist/lib/interface/ErrorInterface';
-import { tomorrow as style } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { selectRepoApiUrl, selectRepoBranch, selectSelectedFile } from '../../store/explorer/explorer.selectors';
 import { SelectedFileType } from '../../store/explorer/explorer.types';
+import Editor from '@monaco-editor/react';
+import './file-viewer.scss';
+const languageMap = require('language-map');
 
 const FileViewer: FC = ({ selectedFile, repoApiUrl, repoBranch }: any) => {
 
@@ -27,34 +28,61 @@ const FileViewer: FC = ({ selectedFile, repoApiUrl, repoBranch }: any) => {
         console.error(error);
       }
     }
-    fetchFileData()
+    fetchFileData();
   }, [url])
 
   useEffect(() => {
     setFileContent('');
     setFileLanguage('text');
-  }, [repoApiUrl, repoBranch])
+  }, [repoApiUrl, repoBranch]);
 
   useEffect(() => {
     const language: LangData | ErrorObject = new LangLine().withFileName(name);
-    let resolvedLanguageName = 'text'
-    if ('prismIndicator' in language) {
-      resolvedLanguageName = language?.prismIndicator as string;
+    let resolvedLanguageName = 'text';
+
+    const langDetail = languageMap[(language as LangData)?.name];
+
+    if (langDetail && 'aceMode' in langDetail) {
+      resolvedLanguageName = langDetail?.aceMode;
     }
+
+    // Expections
+    switch (name.split('.').pop()) {
+      case 'tsx':
+      case 'ts':
+        resolvedLanguageName='typescript'
+        break;
+
+      case 'jsx':
+        resolvedLanguageName='javascript'
+        break;
+
+      case 'md':
+        resolvedLanguageName='markdown'
+        break;
+
+      default:
+        break;
+    }
+
     setFileLanguage(resolvedLanguageName);
-  }, [name])
+    console.log(language, languageMap[(language as LangData)?.name], resolvedLanguageName);
+  }, [name]);
 
   return (
     <div className='file-viewer'>
       {
         fileContent ? (
-          <SyntaxHighlighter
+          <Editor
+            options={{
+              readOnly: true
+            }}
+            height='100%'
+            width='100%'
+            value={fileContent}
             language={fileLanguage}
-            style={style}
-            customStyle={{ margin: '0' }}
-            showLineNumbers >
-            {fileContent}
-          </SyntaxHighlighter>
+            theme='vs-dark'
+          />
         ) : null
       }
     </div>
